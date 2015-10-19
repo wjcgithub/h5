@@ -15,6 +15,11 @@ var num = 60;
 //星星的集合
 var stars = [];
 
+//上一次帧刷新的时间
+var lastTime;
+//最近两次帧的时间间隔
+var deltaTime;
+
 function init(){
     //获取2d绘图环境
     can = document.getElementById('canvas');
@@ -35,6 +40,8 @@ function init(){
         stars.push(obj);
         stars[i].init();
     }
+
+    lastTime = Date.now();
 
     //游戏循环
     gameLoop();
@@ -64,6 +71,14 @@ function drawGirl(){
 function gameLoop(){
     //添加帧循环器
     requestAnimFrame(gameLoop);
+
+    //计算两帧时间差
+    var now = Date.now();
+    //计算时间间隔
+    deltaTime = now - lastTime;
+    //更新最后一次时间
+    lastTime = now;
+
     //绘制背景
     drawBg();
     //绘制女孩

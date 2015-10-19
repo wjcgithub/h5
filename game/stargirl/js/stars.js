@@ -2,27 +2,71 @@
  * 星星对象
  */
 var starObj = function  (){
+    //星星的x坐标
     this.x;
+    //星星的y坐标
     this.y;
 
+    //星星图片的编号
     this.picNo;
+    //星星大小的变化时间间隔
+    this.timer;
+
+    //星星在x轴移动的速度
+    this.xSpd;
+    //星星在y轴移动的速度
+    this.ySpd;
+
 }
 
 /**
  * 初始化星星方法
  */
 starObj.prototype.init = function (){
+    //随机的星星x轴坐标
     this.x = Math.random() * 600 + 100;  //Math.randow() 返回[0,1}  包含0不包含1
+    //随机的星星y轴坐标
     this.y = Math.random() * 300 + 150;
 
-    this.picNo = 0;
+    //随机显示某一张星星图片
+    this.picNo = Math.floor(Math.random() * 7);
+    //星星变化间隔的时间初始化
+    this.timer = 0;
+
+    //星星在x轴移动的位移值初始化
+    this.xSpd = Math.random() * 3;
+    //星星在y轴移动的位移值初始化
+    this.ySpd = Math.random() * 3;
+
 }
 
+/**
+ * 实现星星的闪烁
+ */
 starObj.prototype.update = function (){
-    this.picNo +=1;
+    //更新星星在x轴上的位移
+    this.x +=this.xSpd * deltaTime * 0.002;
+    //更新星星在y轴上的位移
+    this.y +=this.ySpd * deltaTime * 0.002;
 
-    if(this.picNo >= 7){
-        this.picNo = 0;
+    //判断星星x轴超出范围的重生
+    if(this.x < 100 || this.x > 700-7){
+        this.init();
+        return;
+    }
+    //判断星星y轴超出范围的重生
+    if(this.y < 150 || this.y > 450-7){
+        this.init();
+        return;
+    }
+
+    //星星闪烁的时间间隔累加
+    this.timer +=deltaTime;
+    //判断是否要替换下一个星星
+    if(this.timer > 50){
+        this.picNo += 1;
+        this.picNo %= 7
+        this.timer = 0;
     }
 }
 
