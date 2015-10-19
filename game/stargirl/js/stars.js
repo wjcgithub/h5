@@ -74,8 +74,16 @@ starObj.prototype.update = function (){
  * 画星星
  */
 starObj.prototype.draw = function (){
+    //save();
+    ctx.save();
+
+    //globalAlpha全局透明度
+    ctx.globalAlpha = life;
     //drawImage(img, sx, sy swidth, sheight, x, y, width, height);
     ctx.drawImage(starPic, this.picNo*7, 0, 7, 7, this.x, this.y, 7 ,7);
+
+    //restore();
+    ctx.restore();
 }
 
 /**
@@ -85,5 +93,26 @@ function drawStars(){
     for(var i=0; i<num; i++){
         stars[i].update();
         stars[i].draw();
+    }
+}
+
+/**
+ * 星星的可用性更新
+ */
+function aliveUpdate(){
+    if(switchy){
+        //in area
+        //show starts
+        life += 0.03 * deltaTime * 0.05;
+        if(life > 1){
+            life = 1;
+        }
+    }else{
+        //out area
+        //hide stars
+        life -= 0.03 * deltaTime * 0.05;
+        if(life < 0){
+            life = 0;
+        }
     }
 }

@@ -20,6 +20,11 @@ var lastTime;
 //最近两次帧的时间间隔
 var deltaTime;
 
+//判断鼠标在不在图片内外
+var switchy;
+//生命值
+var life = 0;
+
 function init(){
     //获取2d绘图环境
     can = document.getElementById('canvas');
@@ -34,6 +39,9 @@ function init(){
     //初始化星星图片
     starPic.src = "src/star.png";
 
+    //绑定事件
+    document.addEventListener('mousemove', mousemove, false);
+
     //循环创建星星对象
     for(var i=0; i<num; i++){
         var obj = new starObj();
@@ -41,7 +49,11 @@ function init(){
         stars[i].init();
     }
 
+    //初始化第一次时间
     lastTime = Date.now();
+
+    //初始化在屏幕内还是屏幕外
+    switchy = false;
 
     //游戏循环
     gameLoop();
@@ -65,6 +77,29 @@ function drawGirl(){
 }
 
 /**
+ * 鼠标移动事件
+ */
+function mousemove(){
+    var e = e||event;
+    if(e.offsetX || e.layerX){
+        var px = e.offsetX == undefined ? e.layerX : e.offsetX;
+        var py = e.offsetY == undefined ? e.layerY : e.offsetY;
+
+        //判断鼠标在图片内还是在图片外
+        //out switchy = false; in switchy = true;
+        //px在范围内 && py 在范围内
+        if(px > 100 && px < 700 && py > 150 && py < 450){
+            switchy = true;
+        }else{
+            switchy = false;
+        }
+
+        console.log(switchy);
+
+    }
+}
+
+/**
  * 刷新canvas画布
  */
 
@@ -85,6 +120,9 @@ function gameLoop(){
     drawGirl();
     //绘制星星
     drawStars();
+    //更新星星可用性
+    aliveUpdate();
+
 }
 
 //游戏初始化
