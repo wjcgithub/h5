@@ -34,9 +34,9 @@ starObj.prototype.init = function (){
     this.timer = 0;
 
     //星星在x轴移动的位移值初始化
-    this.xSpd = Math.random() * 3;
+    this.xSpd = Math.random() * 3 - 1.5;
     //星星在y轴移动的位移值初始化
-    this.ySpd = Math.random() * 3;
+    this.ySpd = Math.random() * 3 - 1.5;
 
 }
 
@@ -45,9 +45,9 @@ starObj.prototype.init = function (){
  */
 starObj.prototype.update = function (){
     //更新星星在x轴上的位移
-    this.x +=this.xSpd * deltaTime * 0.002;
+    this.x +=this.xSpd * deltaTime * 0.004;
     //更新星星在y轴上的位移
-    this.y +=this.ySpd * deltaTime * 0.002;
+    this.y +=this.ySpd * deltaTime * 0.004;
 
     //判断星星x轴超出范围的重生
     if(this.x < 100 || this.x > 700-7){
